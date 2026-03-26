@@ -13,6 +13,8 @@ spec:
 
   template:
     metadata:
+      name: securekubeops
+      namespace: dev
       labels:
         app: securekubeops
 
