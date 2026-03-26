@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: securekubeops-deployment
+  labels:
+    app: securekubeops
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: securekubeops
+
+  template:
+    metadata:
+      labels:
+        app: securekubeops
+
+    spec:
+      containers:
+      - name: securekubeops-container
+        image: saimcyber/securekubeops:v1
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 3000
+
+        # 🔐 SECURITY (DevSecOps)
+        securityContext:
+          runAsUser: 1000
+          allowPrivilegeEscalation: false
+
+        # ❤️ LIVENESS PROBE (restart if dead)
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
+        # 🚦 READINESS PROBE (ready to receive traffic)
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
+        # ⚙️ RESOURCE MANAGEMENT
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
