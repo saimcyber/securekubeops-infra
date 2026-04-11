@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: securekubeops-container
-        image: saimcyber/securekubeops:e9062dbcc8211300c27b5112dc5a03837ba9b43a
+        image: saimcyber/securekubeops:7a0cc08a558b9eca8f93728ce2b5f5949d0239f9
         imagePullPolicy: Always
 
         ports:
